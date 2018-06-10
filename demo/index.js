@@ -27,17 +27,32 @@
 						},
 					};
 				})(),
+				duration: {
+					values: [0, 1, 5, 10],
+					valueIndex: 1,
+				},
 			},
 		},
 
 		computed: {
 			colorObject: function() {
-				var color = this.input.color;
+				var input = this.input;
 
-				var r = color.r.value;
-				var g = color.g.value;
-				var b = color.b.value;
-				return {r: r, g: g, b: b};
+				var r = input.color.r.value;
+				var g = input.color.g.value;
+				var b = input.color.b.value;
+				var color = {r: r, g: g, b: b};
+				return color;
+			},
+
+			duration: function() {
+				var input = this.input;
+
+				var values = input.duration.values;
+				var valueIndex = input.duration.valueIndex;
+				var value = values[valueIndex];
+				var duration = value * 1000;
+				return duration;
 			},
 
 			animatedColor: function() {
@@ -52,7 +67,9 @@
 				get: function() {
 					return this.colorObject;
 				},
-				duration: 1000,
+				duration: function() {
+					return this.duration;
+				},
 			},
 		},
 	});

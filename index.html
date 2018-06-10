@@ -153,6 +153,35 @@
 								hide-details
 							></v-slider>
 						</vue-flex-item>
+						<vue-flex-item>
+							<div
+								style="
+									display: flex;
+									justify-content: space-between;
+									align-items: center;
+								"
+							>
+								<div>
+									duration
+								</div>
+								<v-chip
+									color="black"
+									text-color="white"
+									small
+								>
+									{{ Math.round(duration / 1000) }}s
+								</v-chip>
+							</div>
+							<v-slider
+								class="mx-2"
+								v-model="input.duration.valueIndex"
+								:min="0"
+								:max="input.duration.values.length - 1"
+								color="black"
+								ticks
+								hide-details
+							></v-slider>
+						</vue-flex-item>
 						<vue-flex-item
 							style="
 								height: 200px;
