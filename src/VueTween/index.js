@@ -45,18 +45,23 @@ export default {
 								return false;
 							}
 							let elapsedTime = Date.now() - startTime;
-							let t = elapsedTime / duration;
-							value = tween(endValue, startValue, t);
-							this[prefixFrame + key] = {};
-							return elapsedTime < duration;
+							if (elapsedTime < duration) {
+								let t = elapsedTime / duration;
+								value = tween(endValue, startValue, t);
+								this[prefixFrame + key] = {};
+							} else {
+								value = endValue;
+								this[prefixFrame + key] = {};
+								return false;
+							}
 						});
 						value = getValue.call(this);
 					}
 				};
 				data[prefixFrame + key] = {};
 				computed[key] = function() {
-					this[prefixFrame + key];
 					this[prefixStart + key];
+					this[prefixFrame + key];
 					return value;
 				};
 			});
