@@ -1,6 +1,6 @@
 {
 	"name": "@seregpie/vuetween",
-	"version": "18.6.10",
+	"version": "18.6.11",
 	"description": "Allows components to tween their properties.",
 	"main": "VueTween.js",
 	"scripts": {
