@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8"/>
+		<meta
+			name="viewport"
+			content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"
+		/>
+		<title>VueTween</title>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/babel-polyfill/6.26.0/polyfill.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.16/vue.min.js"></script>
+		<style>
+			[v-cloak] {
+				display: none;
+			}
+		</style>
+		<script src="VueTween.js"></script>
+		<link
+			rel="stylesheet"
+			href="https://use.fontawesome.com/releases/v5.0.13/css/all.css"
+		/>
+		<link
+			rel="stylesheet"
+			href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons"
+		/>
+		<link
+			rel="stylesheet"
+			href="https://cdnjs.cloudflare.com/ajax/libs/vuetify/1.1.0-beta.2/vuetify.min.css"
+		/>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/vuetify/1.1.0-beta.2/vuetify.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/tinycolor/1.4.1/tinycolor.min.js"></script>
+	</head>
+	<body>
+		<v-app
+			v-cloak
+			id="App"
+		>
+			<v-toolbar
+				color="black"
+				dark
+				clipped-left
+				app
+			>
+				<v-toolbar-title>
+					VueTween
+				</v-toolbar-title>
+				<v-spacer></v-spacer>
+				<v-btn
+					href="https://github.com/SeregPie/VueTween"
+					target="_blank"
+					icon
+				>
+					<v-icon>
+						fab fa-github
+					</v-icon>
+				</v-btn>
+			</v-toolbar>
+			<v-content>
+				<v-container
+					fill-height
+					hide-overflow
+					justify-center
+				>
+					<vue-flex-box
+						style="
+							width: 100%;
+							max-width: 300px;
+						"
+						direction-column
+						:spacing="16"
+					>
+						<vue-flex-item>
+							<div
+								style="
+									display: flex;
+									justify-content: space-between;
+									align-items: center;
+								"
+							>
+								<div>
+									red
+								</div>
+								<v-chip
+									color="red"
+									text-color="white"
+									small
+								>
+									{{ colorObject.r }}
+								</v-chip>
+							</div>
+							<v-slider
+								class="mx-2"
+								v-model="input.color.r.value"
+								:min="input.color.r.min"
+								:max="input.color.r.max"
+								color="red"
+								hide-details
+							></v-slider>
+						</vue-flex-item>
+						<vue-flex-item>
+							<div
+								style="
+									display: flex;
+									justify-content: space-between;
+									align-items: center;
+								"
+							>
+								<div>
+									green
+								</div>
+								<v-chip
+									color="green"
+									text-color="white"
+									small
+								>
+									{{ colorObject.g }}
+								</v-chip>
+							</div>
+							<v-slider
+								class="mx-2"
+								v-model="input.color.g.value"
+								:min="input.color.g.min"
+								:max="input.color.g.max"
+								color="green"
+								hide-details
+							></v-slider>
+						</vue-flex-item>
+						<vue-flex-item>
+							<div
+								style="
+									display: flex;
+									justify-content: space-between;
+									align-items: center;
+								"
+							>
+								<div>
+									blue
+								</div>
+								<v-chip
+									color="blue"
+									text-color="white"
+									small
+								>
+									{{ colorObject.b }}
+								</v-chip>
+							</div>
+							<v-slider
+								class="mx-2"
+								v-model="input.color.b.value"
+								:min="input.color.b.min"
+								:max="input.color.b.max"
+								color="blue"
+								hide-details
+							></v-slider>
+						</vue-flex-item>
+						<vue-flex-item
+							style="
+								height: 200px;
+								display: flex;
+								justify-content: center;
+								align-items: center;
+							"
+							:style="{backgroundColor: animatedColor}"
+						>
+							<v-chip
+								style="font-family: monospace;"
+								color="black"
+								text-color="white"
+								label
+							>
+								{{ animatedColor }}
+							</v-chip>
+						</vue-flex-item>
+					</vue-flex-box>
+				</v-container>
+			</v-content>
+		</v-app>
+		<script src="demo/index.js"></script>
+	</body>
+</html>
