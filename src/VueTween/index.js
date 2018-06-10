@@ -1,4 +1,5 @@
 import Function_cast from '/utils/Function/cast';
+import Function_identity from '/utils/Function/identity';
 import initAnimation from '/utils/initAnimation';
 
 import tween from './tween';
@@ -24,6 +25,7 @@ export default {
 			Object.entries(tweened).forEach(([key, {
 				get: getValue,
 				duration: getDuration,
+				easing = Function_identity,
 			}]) => {
 				getDuration = Function_cast(getDuration);
 				let value;
@@ -46,7 +48,7 @@ export default {
 							}
 							let elapsedTime = Date.now() - startTime;
 							if (elapsedTime < duration) {
-								let t = elapsedTime / duration;
+								let t = easing(elapsedTime / duration);
 								value = tween(endValue, startValue, t);
 								this[prefixFrame + key] = {};
 							} else {

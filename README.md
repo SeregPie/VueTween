@@ -67,6 +67,9 @@ If Vue is detected, the plugin will be installed automatically.
       duration() {
         return this.animationDuration;
       },
+      easing(t) {
+        return t * (2 - t);
+      },
     },
   },
 }
