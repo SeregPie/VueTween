@@ -1,18 +1,18 @@
-export default function(callback) {
+export default function(callback, delay) {
 	let idle = true;
-	let run = function() {
+	let run = (() => {
 		requestAnimationFrame(() => {
 			if (callback() === false) {
 				idle = true;
 			} else {
-				run();
+				setTimeout(run, delay);
 			}
 		});
-	};
-	return function() {
+	});
+	return (() => {
 		if (idle) {
 			idle = false;
 			run();
 		}
-	};
+	});
 }

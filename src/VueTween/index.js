@@ -1,8 +1,8 @@
 import Function_cast from '/utils/Function/cast';
 import Function_identity from '/utils/Function/identity';
-import initAnimation from '/utils/initAnimation';
-
-import tween from './tween';
+import Lang_clone from '/utils/Lang/clone';
+import prepareAnimationLoop from '/utils/prepareAnimationLoop';
+import tween from '/utils/tween';
 
 let prefix = 'tweened_';
 let prefixStart = prefix + 'start_';
@@ -37,12 +37,12 @@ export default {
 				computed[prefixStart + key] = function() {
 					if (startTweening) {
 						startValue = value;
-						endValue = getValue.call(this);
+						endValue = Lang_clone(getValue.call(this));
 						startTime = Date.now();
 						duration = getDuration.call(this);
 						startTweening();
 					} else {
-						startTweening = initAnimation(() => {
+						startTweening = prepareAnimationLoop(() => {
 							if (this._isDestroyed) {
 								return false;
 							}
@@ -57,7 +57,7 @@ export default {
 								return false;
 							}
 						});
-						value = getValue.call(this);
+						value = Lang_clone(getValue.call(this));
 					}
 				};
 				data[prefixFrame + key] = {};
