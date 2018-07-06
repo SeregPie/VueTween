@@ -10,9 +10,11 @@ let prefixFrame = prefix + 'frame_';
 
 export default {
 	install(Vue) {
-		Vue.config.optionMergeStrategies.tweened = function(toValue, fromValue) {
-			return {...fromValue, ...toValue};
-		};
+		Object.assign(Vue.config.optionMergeStrategies, {
+			tweened(toValue, fromValue) {
+				return {...fromValue, ...toValue};
+			},
+		});
 		Vue.mixin(this);
 	},
 
@@ -36,38 +38,40 @@ export default {
 				let startTime;
 				let duration;
 				let startTweening;
-				computed[prefixStart + key] = function() {
-					if (startTweening) {
-						startValue = value;
-						endValue = Lang_clone(getValue.call(this));
-						startTime = Date.now();
-						duration = getDuration.call(this);
-						startTweening();
-					} else {
-						startTweening = prepareAnimationLoop(() => {
-							if (this._isDestroyed) {
-								return false;
-							}
-							let elapsedTime = Date.now() - startTime;
-							if (elapsedTime < duration) {
-								let t = easing(elapsedTime / duration);
-								value = tween(endValue, startValue, t);
-								this[prefixFrame + key] = {};
-							} else {
-								value = endValue;
-								this[prefixFrame + key] = {};
-								return false;
-							}
-						});
-						value = Lang_clone(getValue.call(this));
-					}
-				};
+				Object.assign(computed, {
+					[prefixStart + key]() {
+						if (startTweening) {
+							startValue = value;
+							endValue = Lang_clone(getValue.call(this));
+							startTime = Date.now();
+							duration = getDuration.call(this);
+							startTweening();
+						} else {
+							startTweening = prepareAnimationLoop(() => {
+								if (this._isDestroyed) {
+									return false;
+								}
+								let elapsedTime = Date.now() - startTime;
+								if (elapsedTime < duration) {
+									let t = easing(elapsedTime / duration);
+									value = tween(endValue, startValue, t);
+									this[prefixFrame + key] = {};
+								} else {
+									value = endValue;
+									this[prefixFrame + key] = {};
+									return false;
+								}
+							});
+							value = Lang_clone(getValue.call(this));
+						}
+					},
+					[key]() {
+						this[prefixStart + key];
+						this[prefixFrame + key];
+						return value;
+					},
+				});
 				data[prefixFrame + key] = {};
-				computed[key] = function() {
-					this[prefixStart + key];
-					this[prefixFrame + key];
-					return value;
-				};
 			});
 		}
 		return data;
