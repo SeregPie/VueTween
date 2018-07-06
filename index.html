@@ -32,31 +32,31 @@
 				<v-container fill-height justify-center>
 					<vue-flex-box style="width: 100%; max-width: 300px;" direction-column spacing="16px">
 						<vue-flex-item>
-							<div style="display: flex; justify-content: space-between; align-items: center;">
+							<div style="display: flex; align-items: center; justify-content: space-between;">
 								<div>red</div>
 								<v-chip color="red" text-color="white" small>{{ colorObject.r }}</v-chip>
 							</div>
 							<v-slider class="mx-2" v-model="colorObject.r" :min="0" :max="255" color="red" hide-details></v-slider>
 						</vue-flex-item>
 						<vue-flex-item>
-							<div style="display: flex; justify-content: space-between; align-items: center;">
+							<div style="display: flex; align-items: center; justify-content: space-between;">
 								<div>green</div>
 								<v-chip color="green" text-color="white" small>{{ colorObject.g }}</v-chip>
 							</div>
 							<v-slider class="mx-2" v-model="colorObject.g" :min="0" :max="255" color="green" hide-details></v-slider>
 						</vue-flex-item>
 						<vue-flex-item>
-							<div style="display: flex; justify-content: space-between; align-items: center;">
+							<div style="display: flex; align-items: center; justify-content: space-between;">
 								<div>blue</div>
 								<v-chip color="blue" text-color="white" small>{{ colorObject.b }}</v-chip>
 							</div>
 							<v-slider class="mx-2" v-model="colorObject.b" :min="0" :max="255" color="blue" hide-details></v-slider>
 						</vue-flex-item>
-						<vue-flex-item style="height: 100px; display: flex; justify-content: center; align-items: center;" :style="{backgroundColor: animatedColor}">
+						<vue-flex-item style="height: 100px; display: flex; align-items: center; justify-content: center;" :style="{backgroundColor: animatedColor}">
 							<v-chip style="font-family: monospace;" color="black" text-color="white" label>{{ animatedColor }}</v-chip>
 						</vue-flex-item>
 						<vue-flex-item>
-							<div style="display: flex; justify-content: space-between; align-items: center;">
+							<div style="display: flex; align-items: center; justify-content: space-between;">
 								<div>duration</div>
 								<v-chip small>{{ Math.round(duration / 1000) }}s</v-chip>
 							</div>
