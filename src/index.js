@@ -1,7 +1,7 @@
-import VueTween from './VueTween';
+import VueTweened from './VueTweened';
 
 if (typeof window !== 'undefined' && window.Vue) {
-	window.Vue.use(VueTween);
+	window.Vue.use(VueTweened);
 }
 
-export default VueTween;
+export default VueTweened;
