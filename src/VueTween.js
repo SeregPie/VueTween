@@ -19,9 +19,11 @@ export default {
 	data() {
 		let {$options} = this;
 		let data = {};
-		let {tweened} = $options;
+		let {
+			computed,
+			tweened,
+		} = $options;
 		if (tweened) {
-			let computed = {};
 			Object.entries(tweened).forEach(([key, {
 				get: getValue,
 				duration: getDuration,
@@ -67,7 +69,6 @@ export default {
 					return value;
 				};
 			});
-			Object.assign($options.computed, computed);
 		}
 		return data;
 	},
