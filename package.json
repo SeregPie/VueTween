@@ -1,6 +1,6 @@
 {
 	"name": "@seregpie/vuetween",
-	"version": "18.7.5",
+	"version": "18.10.25",
 	"description": "Allows the components to tween their properties.",
 	"keywords": [
 		"animation",
