@@ -2,70 +2,148 @@
 <html>
 	<head>
 		<meta charset="utf-8"/>
-		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"/>
+		<meta
+			content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"
+			name="viewport"
+		/>
 		<title>VueTween</title>
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/babel-polyfill/6.26.0/polyfill.min.js"></script>
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.16/vue.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/babel-polyfill/7.0.0/polyfill.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.17/vue.min.js"></script>
 		<style>
 			[v-cloak] {
 				display: none;
 			}
 		</style>
 		<script src="VueTween.js"></script>
-		<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css"/>
-		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons"/>
-		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vuetify/1.1.1/vuetify.min.css"/>
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/vuetify/1.1.1/vuetify.min.js"></script>
-		<script src="https://unpkg.com/@seregpie/vueflex@18.7.4"></script>
+		<link
+			href="https://use.fontawesome.com/releases/v5.4.1/css/all.css"
+			rel="stylesheet"
+		/>
+		<link
+			href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons"
+			rel="stylesheet"
+		/>
+		<link
+			href="https://cdnjs.cloudflare.com/ajax/libs/vuetify/1.3.3/vuetify.min.css"
+			rel="stylesheet"
+		/>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/vuetify/1.3.3/vuetify.min.js"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/tinycolor/1.4.1/tinycolor.min.js"></script>
 	</head>
 	<body>
-		<v-app v-cloak id="app">
-			<v-toolbar dark dense app>
+		<v-app
+			v-cloak
+			id="app"
+		>
+			<v-toolbar
+				app
+				dark
+				dense
+			>
 				<v-toolbar-title>VueTween</v-toolbar-title>
 				<v-spacer></v-spacer>
-				<v-btn href="https://github.com/SeregPie/VueTween" target="_blank" icon>
+				<v-btn
+					href="https://github.com/SeregPie/VueTween"
+					icon
+					target="_blank"
+				>
 					<v-icon>fab fa-github</v-icon>
 				</v-btn>
 			</v-toolbar>
 			<v-content>
-				<v-container fill-height justify-center>
-					<vue-flex-box style="width: 100%; max-width: 300px;" direction-column spacing="16px">
-						<vue-flex-item>
-							<div style="display: flex; align-items: center; justify-content: space-between;">
-								<div>red</div>
-								<v-chip color="red" text-color="white" small>{{ colorObject.r }}</v-chip>
-							</div>
-							<v-slider class="mx-2" v-model="colorObject.r" :min="0" :max="255" color="red" hide-details></v-slider>
-						</vue-flex-item>
-						<vue-flex-item>
-							<div style="display: flex; align-items: center; justify-content: space-between;">
-								<div>green</div>
-								<v-chip color="green" text-color="white" small>{{ colorObject.g }}</v-chip>
-							</div>
-							<v-slider class="mx-2" v-model="colorObject.g" :min="0" :max="255" color="green" hide-details></v-slider>
-						</vue-flex-item>
-						<vue-flex-item>
-							<div style="display: flex; align-items: center; justify-content: space-between;">
-								<div>blue</div>
-								<v-chip color="blue" text-color="white" small>{{ colorObject.b }}</v-chip>
-							</div>
-							<v-slider class="mx-2" v-model="colorObject.b" :min="0" :max="255" color="blue" hide-details></v-slider>
-						</vue-flex-item>
-						<vue-flex-item style="height: 100px; display: flex; align-items: center; justify-content: center;" :style="{backgroundColor: animatedColor}">
-							<v-chip style="font-family: monospace;" color="black" text-color="white" label>{{ animatedColor }}</v-chip>
-						</vue-flex-item>
-						<vue-flex-item>
-							<div style="display: flex; align-items: center; justify-content: space-between;">
-								<div>duration</div>
-								<v-chip small>{{ Math.round(duration / 1000) }}s</v-chip>
-							</div>
-							<v-slider class="mx-2" v-model="durationValueIndex" :min="0" :max="durationValues.length - 1" color="grey darken-2" ticks hide-details></v-slider>
-						</vue-flex-item>
-					</vue-flex-box>
+				<v-container
+					fill-height
+					grid-list-xl
+				>
+					<v-layout
+						align-center
+						justify-center
+					>
+						<v-flex
+							style="
+								max-width: 300px;
+								width: 100%;
+							"
+						>
+							<v-layout column>
+								<v-flex v-for="(color, key) in {r: 'red', g: 'green', b: 'blue'}">
+									<div
+										style="
+											align-items: center;
+											display: flex;
+											justify-content: space-between;
+										"
+									>
+										<v-input
+											:label="color"
+											hide-details
+										></v-input>
+										<v-chip
+											:color="color"
+											small
+											text-color="white"
+										>{{ colorObject[key] }}</v-chip>
+									</div>
+									<v-slider
+										v-model="colorObject[key]"
+										:color="color"
+										:max="255"
+										:min="0"
+										class="mx-2 my-0"
+										hide-details
+									></v-slider>
+								</v-flex>
+								<v-flex>
+									<div
+										:style="{backgroundColor: animatedColor}"
+										style="
+											align-items: center;
+											display: flex;
+											height: 100px;
+											justify-content: center;
+										"
+									>
+										<v-chip
+											color="black"
+											label
+											style="font-family: monospace;"
+											text-color="white"
+										>{{ animatedColor }}</v-chip>
+									</div>
+								</v-flex>
+								<v-flex>
+									<div
+										style="
+											align-items: center;
+											display: flex;
+											justify-content: space-between;
+										"
+									>
+										<v-input
+											hide-details
+											label="duration"
+										></v-input>
+										<v-chip
+											small
+										>{{ Math.round(duration / 1000) }}s</v-chip>
+									</div>
+									<v-slider
+										v-model="durationIndex"
+										:max="durationValues.length - 1"
+										:min="0"
+										class="mx-2 my-0"
+										color="black"
+										hide-details
+										ticks
+									></v-slider>
+								</v-flex>
+							</v-layout>
+						</v-flex>
+					</v-layout>
 				</v-container>
 			</v-content>
+			</v-content>
 		</v-app>
-		<script src="demo/index.js"></script>
+		<script src="demo/script.js"></script>
 	</body>
 </html>

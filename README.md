@@ -1,6 +1,6 @@
 # VueTween
 
-Allows components to tween their properties.
+Allows the components to tween their properties.
 
 ## demo
 
@@ -31,14 +31,14 @@ Vue.use(VueTween);
 
 *or*
 
-Register the plugin in the scope of another instance.
+Register the plugin in the scope of a component.
 
 ```javascript
 import VueTween from '@seregpie/vuetween';
 
 export default {
-  // ...
   mixins: [VueTween],
+  /*...*/
 };
 ```
 

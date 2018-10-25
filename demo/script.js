@@ -5,17 +5,17 @@
 
 		data: {
 			colorObject: tinycolor.random().toRgb(),
+			durationIndex: 1,
 			durationValues: [0, 1000, 5000, 10000],
-			durationValueIndex: 1,
 		},
 
 		computed: {
-			duration: function() {
-				return this.durationValues[this.durationValueIndex];
-			},
-
 			animatedColor: function() {
 				return tinycolor(this.animatedColorObject).toHexString();
+			},
+
+			duration: function() {
+				return this.durationValues[this.durationIndex];
 			},
 		},
 
