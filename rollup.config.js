@@ -11,7 +11,7 @@ let plugins = [
 	resolve(),
 	replace({'process.env.NODE_ENV': JSON.stringify('production')}),
 	commonjs(),
-	buble({objectAssign: 'Object.assign'}),
+	buble(),
 	terser(),
 ];
 

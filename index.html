@@ -65,23 +65,7 @@
 						"
 					>
 						<div
-							v-for="item of [
-								{
-									color: '#f00',
-									key: 'r',
-									label: 'red',
-								},
-								{
-									color: '#0f0',
-									key: 'g',
-									label: 'green',
-								},
-								{
-									color: '#00f',
-									key: 'b',
-									label: 'blue',
-								},
-							]"
+							v-for="item of colorItems"
 							:key="item.key"
 						>
 							<div

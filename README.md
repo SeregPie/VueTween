@@ -6,10 +6,6 @@ Allows the components to tween their properties.
 
 [Try it out!](https://seregpie.github.io/VueTween/)
 
-## dependencies
-
-- [Vue](https://github.com/vuejs/vue)
-
 ## setup
 
 ### npm
