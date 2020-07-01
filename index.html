@@ -21,14 +21,14 @@
 			rel="stylesheet"
 		/>
 		<link
-			href="https://unpkg.com/vuetify@2.3.2/dist/vuetify.min.css"
+			href="https://unpkg.com/vuetify@2.3.3/dist/vuetify.min.css"
 			rel="stylesheet"
 		/>
 		<script src="https://unpkg.com/core-js-bundle@3.6.5/minified.js"></script>
 		<script src="https://unpkg.com/vue@2.6.11/dist/vue.min.js"></script>
-		<script src="https://unpkg.com/@vue/composition-api@0.6.7/dist/vue-composition-api.umd.min.js"></script>
+		<script src="https://unpkg.com/@vue/composition-api@1.0.0-beta.1/dist/vue-composition-api.prod.js"></script>
 		<script src="./index.js"></script>
-		<script src="https://unpkg.com/vuetify@2.3.2/dist/vuetify.min.js"></script>
+		<script src="https://unpkg.com/vuetify@2.3.3/dist/vuetify.min.js"></script>
 		<script src="https://unpkg.com/tinycolor2@1.4.1/dist/tinycolor-min.js"></script>
 	</head>
 	<body>
@@ -56,18 +56,41 @@
 					fill-height
 					justify-center
 				>
-					<div
-						style="
-							display: grid;
-							gap: 16px;
-							max-width: 300px;
-							width: 100%;
-						"
-					>
+					<div>
+						<div class="pa-2">
+							<v-sheet
+								:color="animatedColor"
+								:elevation="2"
+								:height="100"
+								style="
+									align-items: center;
+									display: flex;
+									justify-content: center;
+								"
+							>
+								<v-chip
+									color="black"
+									label
+									style="font-family: monospace;"
+									text-color="white"
+								>{{ animatedColor }}</v-chip>
+							</v-sheet>
+						</div>
 						<div
-							v-for="item of colorItems"
-							:key="item.key"
+							class="pa-2"
+							style="
+								align-items: center;
+								display: flex;
+								justify-content: center;
+							"
 						>
+							<v-color-picker
+								v-model="color"
+								:elevation="2"
+								hide-inputs
+							></v-color-picker>
+						</div>
+						<div class="pa-2">
 							<div
 								style="
 									align-items: center;
@@ -76,54 +99,21 @@
 								"
 							>
 								<v-input
-									:label="item.label"
 									hide-details
+									label="duration"
 								></v-input>
 								<v-chip
-									:color="item.color"
 									small
-									text-color="white"
-								>{{ colorObject[item.key] }}</v-chip>
+								>{{ durationLabel }}</v-chip>
 							</div>
 							<v-slider
-								v-model="colorObject[item.key]"
-								:color="item.color"
-								:max="255"
+								v-model="durationIndex"
+								:max="durationValues.length - 1"
 								:min="0"
 								hide-details
-								track-color="grey"
+								ticks
 							></v-slider>
 						</div>
-						<div
-							:style="{backgroundColor: animatedColor}"
-							style="
-								align-items: center;
-								display: flex;
-								height: 100px;
-								justify-content: center;
-							"
-						>
-							<v-chip
-								color="black"
-								label
-								style="font-family: monospace;"
-								text-color="white"
-							>{{ animatedColor }}</v-chip>
-						</div>
-						<v-radio-group
-							v-model="durationIndex"
-							label="duration"
-							row
-							class="ma-0 pa-0"
-						>
-							<v-radio
-								v-for="(label, index) of durationLabels"
-								:key="index"
-								:label="label"
-								:value="index"
-
-							></v-radio>
-						</v-radio-group>
 					</div>
 				</v-container>
 			</v-main>

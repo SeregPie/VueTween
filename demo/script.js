@@ -1,7 +1,7 @@
 (function() {
 
-	var computed = vueCompositionApi.computed;
-	var ref = vueCompositionApi.ref;
+	var computed = VueCompositionAPI.computed;
+	var ref = VueCompositionAPI.ref;
 	var tweened = VueTween.tweened;
 
 	new Vue({
@@ -18,8 +18,16 @@
 					value: 1000,
 				},
 				{
-					label: '5s',
-					value: 5000,
+					label: '2s',
+					value: 2000,
+				},
+				{
+					label: '4s',
+					value: 4000,
+				},
+				{
+					label: '8s',
+					value: 8000,
 				},
 			];
 			var durationLabels = durationItems.map(function(item) {
@@ -28,44 +36,28 @@
 			var durationValues = durationItems.map(function(item) {
 				return item.value;
 			});
-			var durationIndexRef = ref(1);
-			var durationRef = computed(function() {
-				var durationIndex = durationIndexRef.value;
-				return durationValues[durationIndex];
+			var durationIndex = ref(1);
+			var duration = computed(function() {
+				return durationValues[durationIndex.value];
 			});
-			var colorObjectRef = ref(tinycolor.random().toRgb());
-			var animatedColorObjectRef = tweened(colorObjectRef, durationRef);
+			var durationLabel = computed(function() {
+				return durationLabels[durationIndex.value];
+			});
+			var colorString = ref(tinycolor.random().toHexString());
+			var colorObject = computed(function() {
+				return tinycolor(colorString.value).toRgb();
+			});
+			var animatedColorObject = tweened(colorObject, duration);
+			var animatedColorString = computed(function() {
+				return tinycolor(animatedColorObject.value).toHexString();
+			});
 			return {
-				animatedColorObject: animatedColorObjectRef,
-				colorObject: colorObjectRef,
-				duration: durationRef,
-				durationIndex: durationIndexRef,
-				durationLabels: durationLabels,
+				animatedColor: animatedColorString,
+				color: colorString,
+				durationIndex: durationIndex,
+				durationLabel: durationLabel,
+				durationValues: durationValues,
 			};
-		},
-		data: {
-			colorItems: [
-				{
-					color: '#f00',
-					key: 'r',
-					label: 'red',
-				},
-				{
-					color: '#0f0',
-					key: 'g',
-					label: 'green',
-				},
-				{
-					color: '#00f',
-					key: 'b',
-					label: 'blue',
-				},
-			],
-		},
-		computed: {
-			animatedColor: function() {
-				return tinycolor(this.animatedColorObject).toHexString();
-			},
 		},
 	});
 

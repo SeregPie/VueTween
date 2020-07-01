@@ -1,11 +1,19 @@
 import {
 	computed,
-	unref,
+	isRef,
 } from '@vue/composition-api';
 import {isFunction} from '@vue/shared';
 
-export default function(value, duration, easing) {
-	let toGetter = (v => (() => unref(isFunction(v) ? v() : v)));
+export default function(value, duration) {
+	let toGetter = (value => {
+		if (isFunction(value)) {
+			return value;
+		}
+		if (isRef(value)) {
+			return (() => value.value);
+		}
+		return (() => value);
+	});
 	let getValue = toGetter(value);
 	let getDuration = toGetter(duration);
 	return computed(() => {

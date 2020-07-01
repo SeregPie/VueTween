@@ -11,86 +11,90 @@ Allows the components to tween their properties.
 ### npm
 
 ```shell
-npm install @seregpie/vuetween
+npm i @seregpie/vue-tween
 ```
 
 ### ES module
 
-Install the plugin globally.
-
 ```javascript
-import Vue from 'vue';
-import VueTween from '@seregpie/vuetween';
-
-Vue.use(VueTween);
-```
-
-*or*
-
-Register the plugin in the scope of a component.
-
-```javascript
-import VueTween from '@seregpie/vuetween';
-
-export default {
-  mixins: [VueTween],
-  /*...*/
-};
+import {tweened} from '@seregpie/vue-tween';
 ```
 
 ### browser
 
 ```html
 <script src="https://unpkg.com/vue"></script>
-<script src="https://unpkg.com/@seregpie/vuetween"></script>
+<script src="https://unpkg.com/@seregpie/vue-tween"></script>
 ```
 
-If Vue is detected, the plugin will be installed automatically.
+The plugin is globally available as `VueTween`.
 
 ## usage
 
 ```javascript
-{
+import {ref} from 'vue';
+import {tweened} from '@seregpie/vue-tween';
+
+export default {
   props: {
     number: Number,
-    animationDuration: Number,
   },
-  tweened: {
-    animatedNumber: {
-      get() {
-        return this.number;
+  setup(props) {
+    let animationDuration = ref(1000);
+    let animatedNumber = tweened(
+      () => props.number,
+      animationDuration,
+      {
+        easing: (t => t * (2 - t)),
       },
-      duration() {
-        return this.animationDuration;
-      },
-      easing(t) {
-        return t * (2 - t);
-      },
-    },
+    );
+    return {
+      animationDuration,
+      animatedNumber,
+    };
   },
-}
+};
 ```
-
 ---
 
 Use nested objects and arrays.
 
 ```javascript
-{
-  data: {
-    colors: [
+import {ref} from 'vue';
+import {tweened} from '@seregpie/vue-tween';
+
+export default {
+  setup() {
+    let colors = ref([
       {r: 255, g: 0, b: 0},
       {r: 0, g: 255, b: 0},
       {r: 0, g: 0, b: 255},
-    ],
+    ]);
+    let animatedColors = tweened(colors, 1000);
+    return {
+      colors,
+      animatedColors,
+    };
   },
-  tweened: {
-    animatedColors: {
-      get() {
-        return this.colors;
-      },
-      duration: 1000,
-    },
-  },
-}
+};
 ```
+
+## API
+
+### stored
+
+```
+tweened(value, duration, {
+  easing(n) { /* identity */ },
+})
+```
+
+Creates a reference to an animated value.
+
+| argument | description |
+| ---: | :--- |
+| `value` | Anything  string as the key. Use a reference or a function to allow reactivity. |
+| `duration` | A number as the duration of the animation in milliseconds. Use `Boolean`, `Number` or `String` for a predefined functionality. |
+| `easing` | Anything as the default value that is returned if the key does not exist. Use a reference or a function to allow reactivity. |
+
+Returns the created reference.
