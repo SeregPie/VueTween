@@ -1,63 +1,92 @@
 (function() {
 
-	var computed = VueCompositionAPI.computed;
-	var ref = VueCompositionAPI.ref;
-	var tweened = VueTween.tweened;
-
 	new Vue({
 		el: '#app',
 		vuetify: new Vuetify(),
-		setup: function() {
-			var durationItems = [
+		data() {
+			let exampleItems = [
 				{
-					label: '0s',
-					value: 0,
+					component: 'MyExample1',
+					name: 'example 1',
 				},
 				{
-					label: '1s',
-					value: 1000,
+					component: 'MyExample2',
+					name: 'example 2',
 				},
 				{
-					label: '2s',
-					value: 2000,
-				},
-				{
-					label: '4s',
-					value: 4000,
-				},
-				{
-					label: '8s',
-					value: 8000,
+					component: 'MyExample3',
+					name: 'example 3',
 				},
 			];
-			var durationLabels = durationItems.map(function(item) {
-				return item.label;
-			});
-			var durationValues = durationItems.map(function(item) {
-				return item.value;
-			});
-			var durationIndex = ref(1);
-			var duration = computed(function() {
-				return durationValues[durationIndex.value];
-			});
-			var durationLabel = computed(function() {
-				return durationLabels[durationIndex.value];
-			});
-			var colorString = ref(tinycolor.random().toHexString());
-			var colorObject = computed(function() {
-				return tinycolor(colorString.value).toRgb();
-			});
-			var animatedColorObject = tweened(colorObject, duration);
-			var animatedColorString = computed(function() {
-				return tinycolor(animatedColorObject.value).toHexString();
-			});
 			return {
-				animatedColor: animatedColorString,
-				color: colorString,
-				durationIndex: durationIndex,
-				durationLabel: durationLabel,
-				durationValues: durationValues,
+				exampleItems,
+				exampleIndex: 0,
 			};
+		},
+		components: {
+			MyExample1: {
+				data() {
+					return {
+						count: 0,
+						countDelta: 100,
+					};
+				},
+				computed: {
+					countAnimated() {
+						return this.count;
+					},
+					countAnimatedFormatted() {
+						return Number(this.countAnimated).toLocaleString('en');
+					},
+				},
+				methods: {
+					incCount() {
+						this.count += this.countDelta;
+					},
+					decCount() {
+						this.count -= this.countDelta;
+					},
+				},
+				template: '#MyExample1',
+			},
+			MyExample2: {
+				data() {
+					return {
+						color: (([r, g, b]) => ({r, g, b}))(chroma.random().rgb()),
+					};
+				},
+				computed: {
+					colorAnimated() {
+						return this.color;
+					},
+					colorAnimatedFormatted() {
+						return chroma(this.colorAnimated).hex();
+					},
+				},
+				template: '#MyExample2',
+			},
+			MyExample3: {
+				data() {
+					return {
+						position: [1/2, 1/2],
+					};
+				},
+				computed: {
+					positionAnimated() {
+						return this.position;
+					},
+				},
+				methods: {
+					onClickToSetPosition(event) {
+						let rect = event.target.getBoundingClientRect();
+						this.position = [
+							Math.min(Math.max((event.clientX - rect.left) / rect.width, 0), 1),
+							Math.min(Math.max((event.clientY - rect.top) / rect.height, 0), 1),
+						];
+					},
+				},
+				template: '#MyExample3',
+			},
 		},
 	});
 

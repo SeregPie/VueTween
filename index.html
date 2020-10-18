@@ -13,7 +13,7 @@
 			}
 		</style>
 		<link
-			href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900"
+			href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900|Roboto+Mono"
 			rel="stylesheet"
 		/>
 		<link
@@ -25,8 +25,8 @@
 			rel="stylesheet"
 		/>
 		<script src="https://unpkg.com/core-js-bundle@3/minified.js"></script>
-		<script src="https://unpkg.com/vue@2/dist/vue.min.js"></script>
-		<script src="https://unpkg.com/@vue/composition-api@1"></script>
+		<script src="https://unpkg.com/vue@2/dist/vue.js"></script>
+		<script src="https://unpkg.com/@vue/composition-api"></script>
 		<script src="./index.js"></script>
 		<script src="https://unpkg.com/vuetify@2/dist/vuetify.min.js"></script>
 		<script src="https://unpkg.com/chroma-js@2"></script>
@@ -50,74 +50,160 @@
 				>
 					<v-icon>mdi-github</v-icon>
 				</v-btn>
+				<template v-slot:extension>
+					<v-tabs
+						v-model="exampleIndex"
+						center-active
+						centered
+						show-arrows
+					>
+						<v-tab
+							v-for="({name}, i) of exampleItems"
+							:key="i"
+						>{{ name }}</v-tab>
+					</v-tabs>
+				</template>
 			</v-app-bar>
 			<v-main>
-				<v-container
-					fill-height
-					justify-center
+				<v-tabs-items
+					v-model="exampleIndex"
+					style="height: 100%"
 				>
-					<div>
-						<div class="pa-2">
-							<v-sheet
-								:color="animatedColor"
-								:elevation="2"
-								:height="100"
-								style="
-									align-items: center;
-									display: flex;
-									justify-content: center;
-								"
-							>
-								<v-chip
-									color="black"
-									label
-									style="font-family: monospace;"
-									text-color="white"
-								>{{ animatedColor }}</v-chip>
-							</v-sheet>
-						</div>
+					<v-tab-item
+						v-for="({component}, i) of exampleItems"
+						:key="i"
+						style="height: 100%"
+					>
 						<div
-							class="pa-2"
+							class="pa-4"
 							style="
 								align-items: center;
 								display: flex;
 								justify-content: center;
+								height: 100%;
 							"
 						>
-							<v-color-picker
-								v-model="color"
-								:elevation="2"
-								hide-inputs
-							></v-color-picker>
+							<component :is="component"></component>
 						</div>
-						<div class="pa-2">
-							<div
-								style="
-									align-items: center;
-									display: flex;
-									justify-content: space-between;
-								"
-							>
-								<v-input
-									hide-details
-									label="duration"
-								></v-input>
-								<v-chip
-									small
-								>{{ durationLabel }}</v-chip>
-							</div>
-							<v-slider
-								v-model="durationIndex"
-								:max="durationValues.length - 1"
-								:min="0"
-								hide-details
-								ticks
-							></v-slider>
-						</div>
-					</div>
-				</v-container>
+					</v-tab-item>
+				</v-tabs-items>
 			</v-main>
 		</v-app>
+		<template id="MyExample1">
+			<div
+				style="
+					align-items: center;
+					display: flex;
+					gap: 32px;
+					justify-content: space-between;
+					max-width: 256px;
+					width: 100%;
+				"
+			>
+				<v-btn
+					color="primary"
+					icon
+					x-large
+					@click="decCount()"
+				>
+					<v-icon>mdi-minus</v-icon>
+				</v-btn>
+				<div
+					style="
+						font-size: 200%;
+						font-weight: 200;
+					"
+				>{{ countAnimatedFormatted }}</div>
+				<v-btn
+					color="primary"
+					icon
+					x-large
+					@click="incCount()"
+				>
+					<v-icon>mdi-plus</v-icon>
+				</v-btn>
+			</div>
+		</template>
+		<template id="MyExample2">
+			<div
+				style="
+					display: grid;
+					gap: 32px;
+					max-width: 256px;
+					width: 100%;
+				"
+			>
+				<v-sheet
+					:color="colorAnimatedFormatted"
+					:elevation="2"
+					rounded
+					style="
+						align-items: center;
+						display: flex;
+						height: 128px;
+						justify-content: center;
+					"
+				>
+					<v-chip
+						color="black"
+						label
+						style="font-family: Roboto Mono;"
+						text-color="white"
+					>{{ colorAnimatedFormatted }}</v-chip>
+				</v-sheet>
+				<div>
+					<v-slider
+						v-for="(v, k) of {r: '#ff0000', g: '#00ff00', b: '#0000ff'}"
+						:key="k"
+						v-model="color[k]"
+						:color="v"
+						:max="255"
+						:min="0"
+						hide-details
+						track-color="black"
+					></v-slider>
+				</div>
+			</div>
+		</template>
+		<template id="MyExample3">
+			<v-sheet
+				color="deep-purple accent-1"
+				rounded
+				style="
+					cursor: pointer;
+					height: 100%;
+					max-height: 512px;
+					max-width: 512px;
+					position: relative;
+					user-select: none;
+					width: 100%;
+				"
+				@click="onClickToSetPosition"
+			>
+				<div
+					style="
+						bottom: 16px;
+						left: 16px;
+						pointer-events: none;
+						position: absolute;
+						right: 16px;
+						top: 16px;
+					"
+				>
+					<div
+						:style="{
+							left: `${positionAnimated[0] * 100}%`,
+							top: `${positionAnimated[1] * 100}%`,
+						}"
+						style="
+								font-size: 32px;
+								position: absolute;
+								transform: translate(-50%, -50%);
+							"
+					>🛸</div>
+				</div>
+			</v-sheet>
+		</template>
 		<script src="./demo/script.js"></script>
 	</body>
 </html>

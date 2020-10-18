@@ -52,20 +52,20 @@ import {tweened} from '@seregpie/vue-tween';
 
 export default {
   props: {
-    number: Number,
+    count: Number,
   },
   setup(props) {
     let animationDuration = ref(1000);
-    let animatedNumber = tweened(
-      () => props.number,
+    let animatedCount = tweened(
+      () => props.count,
       animationDuration,
       {
         easing: (t => t * (2 - t)),
       },
     );
     return {
+      animatedCount,
       animationDuration,
-      animatedNumber,
     };
   },
 };
@@ -91,7 +91,7 @@ Define the options.
 ```javascript
 export default {
   props: {
-    number: Number,
+    count: Number,
   },
   data() {
     return {
@@ -99,9 +99,9 @@ export default {
     },
   },
   tweened: {
-    animatedNumber: {
+    animatedCount: {
       get() {
-        return this.number;
+        return this.count;
       },
       duration() {
         return this.animationDuration;
