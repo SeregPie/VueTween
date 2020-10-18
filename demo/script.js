@@ -1,7 +1,7 @@
 (function() {
 
 	new Vue({
-		el: '#app',
+		el: '#App',
 		vuetify: new Vuetify(),
 		data() {
 			let exampleItems = [
@@ -32,11 +32,16 @@
 					};
 				},
 				computed: {
-					countAnimated() {
-						return this.count;
-					},
 					countAnimatedFormatted() {
 						return Number(this.countAnimated).toLocaleString('en');
+					},
+				},
+				tweened: {
+					countAnimated: {
+						get() {
+							return this.count;
+						},
+						duration: 1000,
 					},
 				},
 				methods: {
@@ -56,11 +61,16 @@
 					};
 				},
 				computed: {
-					colorAnimated() {
-						return this.color;
-					},
 					colorAnimatedFormatted() {
 						return chroma(this.colorAnimated).hex();
+					},
+				},
+				tweened: {
+					colorAnimated: {
+						get() {
+							return this.color;
+						},
+						duration: 2000,
 					},
 				},
 				template: '#MyExample2',
@@ -71,9 +81,12 @@
 						position: [1/2, 1/2],
 					};
 				},
-				computed: {
-					positionAnimated() {
-						return this.position;
+				tweened: {
+					positionAnimated: {
+						get() {
+							return this.position;
+						},
+						duration: 2000,
 					},
 				},
 				methods: {

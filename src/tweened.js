@@ -1,7 +1,7 @@
 import {
 	computed,
 	isRef,
-} from '@vue/composition-api';
+} from 'vue-demi';
 import {isFunction} from '@vue/shared';
 
 export default function(value, duration) {
