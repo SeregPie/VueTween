@@ -1,5 +1,6 @@
 import {isFunction} from '@vue/shared';
 
+import mapValues from './mapValues';
 import tweened from './tweened';
 
 export default {
@@ -11,31 +12,22 @@ export default {
 			tweened: tweenedProperties,
 		} = $options;
 		if (tweenedProperties) {
-			let toComputedProperty = (value => {
+			Object.assign(computedProperties, mapValues(tweenedProperties, v => {
 				let {
 					get,
 					duration,
 					...options
-				} = Object.entries(value).reduce((object, [key, value]) => {
-					if (isFunction(value)) {
-						value = value.bind(this);
-					}
-					object[key] = value;
-					return object;
-				}, {});
+				} = mapValues(v, v => isFunction(v) ? v.bind(this) : v);
 				let r = tweened(get, duration, options);
 				return {
 					get() {
 						return r.value;
 					},
-					set(value) {
-						r.value = value;
+					set(v) {
+						r.value = v;
 					},
 				};
-			});
-			Object.entries(tweenedProperties).forEach(([key, value]) => {
-				computedProperties[key] = toComputedProperty(value);
-			});
+			}));
 		}
 	},
 };
